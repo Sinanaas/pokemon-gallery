@@ -5,22 +5,25 @@ import PokemonThumbnail from './components/PokemonThumbnail'
 
 const App = () => {
   const [allPokemons, setAllPokemons] = useState([])
-  const [loadMore, setLoadMore] = useState('https://pokeapi.co/api/v2/pokemon?limit=40')
+  const [loadMore, setLoadMore] = useState('https://pokeapi.co/api/v2/pokemon?limit=22')
 
   const getAllPokemons = async () => {
-    const res = await fetch(loadMore)
-    const data = await res.json()
-
+    const response = await axios.get(loadMore)
+    const data = response.data
     setLoadMore(data.next)
+    async function createPokemonObject(result) {
+      const newData = await Promise.all(
+        result.map( async (pokemon) => {
+          const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
+          return response.data
+        })
+      ) 
 
-    function createPokemonObject(result) {
-      result.forEach( async (pokemon) => {
-        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
-        const data = await res.json()
+      console.log('newData: ', newData)
 
-        setAllPokemons(currentList => [...currentList, data])
-        await allPokemons.sort((a, b) => a.id - b.id)
-        // await console.log(allPokemons)
+      setAllPokemons((currentList) => {
+        const updatedList = [...currentList, ...newData]
+        return updatedList.sort((a, b) => a.id - b.id)
       })
     }
     createPokemonObject(data.results)
@@ -40,7 +43,7 @@ const App = () => {
           { allPokemons.map((pokemon, index) =>
             <PokemonThumbnail
               id={pokemon.id}
-              name={pokemon.name}
+              name={pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
               image={pokemon.sprites.other.dream_world.front_default}
               type={pokemon.types[0].type.name}
               key={index}
