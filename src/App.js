@@ -2,10 +2,24 @@ import { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from 'axios'
 import PokemonThumbnail from './components/PokemonThumbnail'
+import PokemonSearchBar from './components/PokemonSearchBar'
 
 const App = () => {
   const [allPokemons, setAllPokemons] = useState([])
   const [loadMore, setLoadMore] = useState('https://pokeapi.co/api/v2/pokemon?limit=22')
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const handleSearch = (newPokemonData) => {
+    setAllPokemons((currentList) => {
+        const updatedList = [...currentList, newPokemonData];
+        return updatedList.sort((a, b) => a.id - b.id);
+    });
+};
+
+
+  // const filteredPokemons = allPokemons.filter(pokemon => {
+  //   return pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
+  // })
 
   const getAllPokemons = async () => {
     const response = await axios.get(loadMore)
@@ -36,7 +50,12 @@ const App = () => {
   return (
     <div className="App">
       <div className="header">
-        <h1>Pokemon Gallery</h1>
+        <div className="banner">
+          <h1>Pokemon Gallery</h1>
+        </div>
+        <div className="search-bar">
+          <PokemonSearchBar onSearch={handleSearch}/>
+        </div>
       </div>
       <div className="pokemon-container">
         <div className="all-container">
