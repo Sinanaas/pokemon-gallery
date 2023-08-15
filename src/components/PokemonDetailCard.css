@@ -1,12 +1,16 @@
 .detail-card {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     position: relative;
     margin-top: 100px;
+    padding: 2rem 40rem;
 }
 
 .detail-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     background-color: wheat;
     height: 80vh;
     padding: 1rem 2rem;
@@ -16,9 +20,10 @@
     color: #71797E;
 }
 
+
 .pokemon-image img{
     /* background-color: red; */
-    height: 400px;
+    height: 300px;
 }
 
 .image-details {

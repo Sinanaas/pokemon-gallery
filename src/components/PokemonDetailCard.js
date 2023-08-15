@@ -8,10 +8,9 @@ const PokemonDetailCard = ({ pokemonData, onClose }) => {
 
     return (
         <div className={style}>
-            <button onClick={onClose}><FontAwesomeIcon icon={faClose} id="search-icon" /></button>
             <div className="detail-card">
                 <div className="pokemon-image">
-                    <img src={pokemonData.sprites.front_default} alt={pokemonData.name} />
+                    <img src={pokemonData.sprites.other.dream_world.front_default} alt={pokemonData.name} />
                     <div className="image-details">
                         <h2>{pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)}</h2>
                         <h2 id='id'>#0{pokemonData.id}</h2>
@@ -30,6 +29,7 @@ const PokemonDetailCard = ({ pokemonData, onClose }) => {
                     <p><b>Speed:</b> {pokemonData.stats.find(stat => stat.stat.name === 'speed').base_stat}</p>
                 </div>
             </div>
+            <button onClick={onClose}><FontAwesomeIcon icon={faClose} id="search-icon" /></button>
         </div>
     );
 };
