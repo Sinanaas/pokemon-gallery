@@ -10,16 +10,10 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState('')
 
   const handleSearch = (newPokemonData) => {
-    setAllPokemons((currentList) => {
-        const updatedList = [...currentList, newPokemonData];
-        return updatedList.sort((a, b) => a.id - b.id);
-    });
-};
+    // setAllPokemons([newPokemonData]);
+  };
 
 
-  // const filteredPokemons = allPokemons.filter(pokemon => {
-  //   return pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
-  // })
 
   const getAllPokemons = async () => {
     const response = await axios.get(loadMore)
@@ -51,7 +45,7 @@ const App = () => {
     <div className="App">
       <div className="header">
         <div className="banner">
-          <h1>Pokemon Gallery</h1>
+          <a href=""><h1>Pokemon Gallery</h1></a>
         </div>
         <div className="search-bar">
           <PokemonSearchBar onSearch={handleSearch}/>
