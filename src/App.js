@@ -3,17 +3,16 @@ import 'bootstrap/dist/css/bootstrap.css'
 import axios from 'axios'
 import PokemonThumbnail from './components/PokemonThumbnail'
 import PokemonSearchBar from './components/PokemonSearchBar'
+import PokemonDetailCard from './components/PokemonDetailCard'
 
 const App = () => {
   const [allPokemons, setAllPokemons] = useState([])
   const [loadMore, setLoadMore] = useState('https://pokeapi.co/api/v2/pokemon?limit=22')
-  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedPokemon, setSelectedPokemon] = useState(null)
 
-  const handleSearch = (newPokemonData) => {
-    // setAllPokemons([newPokemonData]);
-  };
-
-
+  const handleSelectedPokemon = (pokemonData) => {
+    setSelectedPokemon(pokemonData)
+  }
 
   const getAllPokemons = async () => {
     const response = await axios.get(loadMore)
@@ -39,17 +38,24 @@ const App = () => {
 
   useEffect(() => {
     getAllPokemons()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <div className="App">
       <div className="header">
         <div className="banner">
-          <a href=""><h1>Pokemon Gallery</h1></a>
+          <a href="/App.js"><h1>Pokemon Gallery</h1></a>
         </div>
         <div className="search-bar">
-          <PokemonSearchBar onSearch={handleSearch}/>
+          <PokemonSearchBar/>
         </div>
+        {selectedPokemon && (
+            <PokemonDetailCard
+              pokemonData={selectedPokemon}
+              onClose={() => setSelectedPokemon(null)}
+            />
+        )}
       </div>
       <div className="pokemon-container">
         <div className="all-container">
@@ -59,9 +65,10 @@ const App = () => {
               name={pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
               image={pokemon.sprites.other.dream_world.front_default}
               type={pokemon.types[0].type.name}
+              onClick={() => handleSelectedPokemon(pokemon)}
               key={index}
             />
-          ) }
+          )}
         </div>
         <button className="load-more" onClick={() => getAllPokemons()} >Load more</button>
       </div>

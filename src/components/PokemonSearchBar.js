@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faSort } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import PokemonDetailCard from './PokemonDetailCard';
 
-const PokemonSearchBar = ({ onSearch }) => {
+const PokemonSearchBar = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [pokemonData, setPokemonData] = useState(null);
-    const [showDetailCard, setShowDetailCard] = useState(false);
 
     const handleSearch = async () => {
         console.log('Performing search for: ', searchQuery);
@@ -15,9 +14,6 @@ const PokemonSearchBar = ({ onSearch }) => {
             try {
                 const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${searchQuery.toLowerCase()}`);
                 setPokemonData(response.data);
-                setShowDetailCard(true);
-                onSearch(response.data);
-                console.log(response.data);
             } catch (error) {
                 console.log('Error fetching data: ', error);
             }
@@ -25,7 +21,7 @@ const PokemonSearchBar = ({ onSearch }) => {
     };
 
     const handleCloseDetailCard = () => {
-        setShowDetailCard(false);
+        setPokemonData(null);
     };
 
     return (
@@ -52,13 +48,8 @@ const PokemonSearchBar = ({ onSearch }) => {
                         <FontAwesomeIcon icon={faSearch} id="search-icon" />
                     </button>
                 </div>
-                <div className="sort-icon">
-                    <button type="submit">
-                        <FontAwesomeIcon icon={faSort} id="sort-icon" />
-                    </button>
-                </div>
             </div>
-            {showDetailCard && pokemonData && (
+            {pokemonData && (
                 <PokemonDetailCard
                     pokemonData={pokemonData}
                     onClose={handleCloseDetailCard}

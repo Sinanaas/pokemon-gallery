@@ -10,8 +10,6 @@
 .detail-container {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    background-color: wheat;
     height: 80vh;
     padding: 1rem 2rem;
 }
@@ -22,7 +20,6 @@
 
 
 .pokemon-image img{
-    /* background-color: red; */
     height: 300px;
 }
 

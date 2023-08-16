@@ -1,9 +1,9 @@
 import React from 'react'
 
-const PokemonThumbnail = ({id, name, image, type}) => {
+const PokemonThumbnail = ({id, name, image, type, onClick}) => {
     const style = `thumb-container ${type}`
     return (
-        <div className={style}>
+        <div className={style} onClick={onClick}>
             <div className="number">
                 <small>#0{id}</small>
             </div>
@@ -13,7 +13,6 @@ const PokemonThumbnail = ({id, name, image, type}) => {
                 <small>Type: {type}</small>
             </div>
         </div>
-
     )
 }
 

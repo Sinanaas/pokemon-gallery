@@ -6,6 +6,10 @@ import { faClose } from '@fortawesome/free-solid-svg-icons';
 const PokemonDetailCard = ({ pokemonData, onClose }) => {
     const style = `detail-container ${pokemonData.types[0].type.name}`
 
+    const handleClose = () => {
+        onClose()
+    }
+
     return (
         <div className={style}>
             <div className="detail-card">
@@ -29,7 +33,7 @@ const PokemonDetailCard = ({ pokemonData, onClose }) => {
                     <p><b>Speed:</b> {pokemonData.stats.find(stat => stat.stat.name === 'speed').base_stat}</p>
                 </div>
             </div>
-            <button onClick={onClose}><FontAwesomeIcon icon={faClose} id="search-icon" /></button>
+            <button onClick={handleClose}><FontAwesomeIcon icon={faClose} id="search-icon" /></button>
         </div>
     );
 };
